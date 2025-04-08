@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const Task = require('../models/Task');  // Import Task model
-const User = require('../models/User');
+const Task = require('./models/Task');  // Import Task model
+const User = require('./models/User');
 
 const app = express();
 app.use(express.json());
@@ -18,9 +18,9 @@ const TodoSchema = new mongoose.Schema({
     completed: Boolean,
 });
 
-const Todo = mongoose.model('Todo', TodoSchema);
+const Todo = mongoose.model('tasks', TodoSchema);
 
-app.get('/todos', async (req, res) => {
+app.get('/tasks', async (req, res) => {
     const todos = await Todo.find();
     res.json(todos);
 });
@@ -31,14 +31,14 @@ app.post('/todos', async (req, res) => {
     res.json(newTodo);
 });
 
-app.delete('/todos/:id', async (req, res) => {
+app.delete('/tasks/:id', async (req, res) => {
     await Todo.findByIdAndDelete(req.params.id);
     res.json({ message: 'Todo deleted' });
 });
 
 app.listen(5000, () => console.log('Server running on port 5000'));
 
-const newTask = new Task({
+/* const newTask = new Task({
     title: "Finish MongoDB setup",
     description: "Connect MongoDB Atlas with Mongoose and test",
     status: "pending",
@@ -57,4 +57,4 @@ const newUser = new User({
 
 newUser.save()
     .then(()=>console.log("Usuario agregado"))
-    .catch(err=>console.error("Error agregando usuario:", err))
+    .catch(err=>console.error("Error agregando usuario:", err)) */
